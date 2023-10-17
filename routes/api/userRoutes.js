@@ -5,7 +5,7 @@ const {
   createUser,
   updateUser,
   deleteUser,
-} = require("../../controllers/thoughts.js");
+} = require("../../controllers/thoughtController");
 
 // https://localhost:3001/api/users
 router.route("/").get(getUser).post(createUser);

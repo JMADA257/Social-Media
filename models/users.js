@@ -1,11 +1,11 @@
-const { Schema, Types } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema(
   {
-    userId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
+    // userId: {
+    //   type: Schema.Types.ObjectId,
+    //   default: () => new Types.ObjectId(),
+    // },
     username: {
       type: String,
       required: true,
@@ -25,14 +25,31 @@ const userSchema = new Schema(
         message: (props) => `${props.value} is not valid`,
       },
     },
-    thoughts: {},
-    friends: {},
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "thought",
+      },
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+      },
+    ],
   },
   {
     toJSON: {
-      getters: true,
+      virtuals: true,
     },
+    id: false,
   }
 );
 
-module.exports = userSchema;
+userSchema.virtual("friendCount").get(function () {
+  return this.friends.length;
+});
+
+const User = model("user", userSchema);
+
+module.exports = User;
