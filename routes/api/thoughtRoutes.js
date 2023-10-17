@@ -10,7 +10,7 @@ const {
 // https://localhost:3001/api/thoughts
 router.route("/").get(getThoughts).post(createThought);
 
-// https://localhost:3001/api/students
+// https://localhost:3001/api/thoughts/{id}
 router
   .route("/:thoughtId")
   .get(getSingleThought)

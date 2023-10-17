@@ -7,10 +7,10 @@ const {
   deleteUser,
 } = require("../../controllers/thoughts.js");
 
-// /api/courses
+// https://localhost:3001/api/users
 router.route("/").get(getUser).post(createUser);
 
-// /api/courses/:courseId
+// https://localhost:3001/api/users/{id}
 router.route("/:userId").get(getSingleUser).put(updateUser).delete(deleteUser);
 
 module.exports = router;
