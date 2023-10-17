@@ -11,6 +11,11 @@ const userSchema = new Schema(
       required: true,
       unique: true,
       trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
       validate: {
         validator: function (v) {
           return /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/.test(
@@ -20,12 +25,6 @@ const userSchema = new Schema(
         message: (props) => `${props.value} is not valid`,
       },
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      //need email verification
-    },
     thoughts: {},
     friends: {},
   },
@@ -33,7 +32,6 @@ const userSchema = new Schema(
     toJSON: {
       getters: true,
     },
-    //dont know what to put here yet
   }
 );
 
