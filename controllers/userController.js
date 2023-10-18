@@ -1,9 +1,9 @@
-const { Thoughts, Users } = require("../models");
+const { Thought, User } = require("../models");
 
 module.exports = {
   async getUsers(req, res) {
     try {
-      const users = await Users.find();
+      const users = await User.find();
 
       res.json(users);
     } catch (err) {
@@ -20,7 +20,7 @@ module.exports = {
 
   async getSingleUser(req, res) {
     try {
-      const singleUser = await Users.findOne({
+      const singleUser = await User.findOne({
         _id: req.params.thoughtId,
       });
 
