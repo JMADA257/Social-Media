@@ -112,7 +112,7 @@ module.exports = {
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $pull: { reations: req.params.reactionId } },
+        { $pull: { reactions: req.params.reactionId } },
         { runValidators: true, new: true }
       );
 
