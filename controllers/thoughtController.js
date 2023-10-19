@@ -1,6 +1,7 @@
 const { Thought, User } = require("../models");
 
 module.exports = {
+  // https://localhost:3001/api/thoughts    get route
   async getThoughts(req, res) {
     try {
       const thoughts = await Thought.find();
@@ -11,6 +12,7 @@ module.exports = {
     }
   },
 
+  // https://localhost:3001/api/thoughts    post route
   async createThought(req, res) {
     try {
       const { thoughtText, username } = req.body;
@@ -38,6 +40,7 @@ module.exports = {
     }
   },
 
+  // https://localhost:3001/api/thoughts/{id}    get route
   async getSingleThought(req, res) {
     try {
       const singleThought = await Thought.findOne({
@@ -54,6 +57,7 @@ module.exports = {
     }
   },
 
+  // https://localhost:3001/api/thoughts/{id}    post route
   async updateThought(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(
@@ -70,6 +74,7 @@ module.exports = {
     }
   },
 
+  // https://localhost:3001/api/thoughts/{id}    delete route
   async deleteThought(req, res) {
     try {
       const thought = await Thought.findOneAndDelete({
@@ -91,6 +96,7 @@ module.exports = {
     }
   },
 
+  // https://localhost:3001/api/    post route
   async addReaction(req, res) {
     try {
       const user = await User.findOneAndUpdate(
@@ -108,6 +114,7 @@ module.exports = {
     }
   },
 
+  // https://localhost:3001/api/   delete route
   async deleteReaction(req, res) {
     try {
       const user = await User.findOneAndUpdate(

@@ -1,6 +1,7 @@
 const { Thought, User } = require("../models");
 
 module.exports = {
+  // https://localhost:3001/api/users    get route
   async getUsers(req, res) {
     try {
       const users = await User.find();
@@ -11,6 +12,7 @@ module.exports = {
     }
   },
 
+  // https://localhost:3001/api/users    post route
   async createUser(req, res) {
     try {
       const user = await new User.Create(req.body);
@@ -20,6 +22,7 @@ module.exports = {
     }
   },
 
+  // https://localhost:3001/api/users/{id}    get route
   async getSingleUser(req, res) {
     try {
       const user = await User.findOne({
@@ -36,6 +39,7 @@ module.exports = {
     }
   },
 
+  // https://localhost:3001/api/users/{id}    post route
   async updateUser(req, res) {
     try {
       const user = await User.findOneAndUpdate(
@@ -53,6 +57,7 @@ module.exports = {
     }
   },
 
+  // https://localhost:3001/api/users/{id}    delete route
   async deleteUser(req, res) {
     try {
       const user = await User.findOneAndDelete({
@@ -73,6 +78,7 @@ module.exports = {
     }
   },
 
+  // https://localhost:3001/api/   post route
   async addFriend(req, res) {
     try {
       const user = await User.findOneAndUpdate(
@@ -90,6 +96,7 @@ module.exports = {
     }
   },
 
+  // https://localhost:3001/api/   delete route
   async deleteFriend(req, res) {
     try {
       const user = await User.findOneAndUpdate(
