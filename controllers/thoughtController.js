@@ -51,7 +51,7 @@ module.exports = {
         return res.status(404).json({ message: "No post with that ID" });
       }
 
-      res.json(singleThought);
+      res.json(thought);
     } catch (err) {
       res.status(500).json(err);
     }

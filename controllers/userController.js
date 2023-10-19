@@ -15,9 +15,10 @@ module.exports = {
   // https://localhost:3001/api/users    post route
   async createUser(req, res) {
     try {
-      const user = await new User.Create(req.body);
+      const user = await User.create(req.body);
       res.status(200).json(user);
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   },
@@ -26,15 +27,17 @@ module.exports = {
   async getSingleUser(req, res) {
     try {
       const user = await User.findOne({
-        _id: req.params.thoughtId,
-      }).select("-__v");
-      populate("thoughts");
+        _id: req.params.userId,
+      })
+        .select("-__v")
+        .populate("thoughts");
       if (!user) {
         return res.status(404).json({ message: "No user with that ID" });
       }
 
-      res.json(singleUser);
+      res.json(user);
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   },
