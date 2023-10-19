@@ -15,25 +15,49 @@ module.exports = {
   // https://localhost:3001/api/thoughts    post route
   async createThought(req, res) {
     try {
-      const { thoughtText, username } = req.body;
+      let savedThought;
+      if (Array.isArray(req.body)) {
+        savedThought = [];
+        for (const { thoughtText, username } of req.body) {
+          const newThought = new Thought({
+            thoughtText,
+            username,
+          });
+          const currentThought = await newThought.save();
+          savedThought.push(currentThought);
 
-      const newThought = new Thought({
-        thoughtText,
-        username,
-      });
+          const user = await User.findOneAndUpdate(
+            { username },
+            { $push: { thoughts: currentThought._id } },
+            { new: true }
+          );
+          if (!user) {
+            return res.status(404).json({
+              message: "Thought created but no user found with that id",
+            });
+          }
+        }
+      } else {
+        const { thoughtText, username } = req.body;
 
-      const savedThought = await newThought.save();
+        const newThought = new Thought({
+          thoughtText,
+          username,
+        });
 
-      const user = await User.findOneAndUpdate(
-        { username },
-        { $push: { thoughts: savedThought._id } },
-        { new: true }
-      );
+        savedThought = await newThought.save();
 
-      if (!user) {
-        return res
-          .status(404)
-          .json({ message: "Thought created but no user found with that id" });
+        const user = await User.findOneAndUpdate(
+          { username },
+          { $push: { thoughts: savedThought._id } },
+          { new: true }
+        );
+
+        if (!user) {
+          return res.status(404).json({
+            message: "Thought created but no user found with that id",
+          });
+        }
       }
       res.status(200).json(savedThought);
     } catch (err) {
