@@ -35,7 +35,9 @@ module.exports = {
           .status(404)
           .json({ message: "Thought created but no user found with that id" });
       }
+      res.status(200).json(savedThought);
     } catch (err) {
+      console.log(err);
       res.status(404).json(err);
     }
   },
@@ -47,12 +49,13 @@ module.exports = {
         _id: req.params.thoughtId,
       });
 
-      if (!post) {
-        return res.status(404).json({ message: "No post with that ID" });
+      if (!singleThought) {
+        return res.status(404).json({ message: "No thought with that ID" });
       }
 
-      res.json(thought);
+      res.json(singleThought);
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   },
@@ -99,17 +102,20 @@ module.exports = {
   // https://localhost:3001/api/    post route
   async addReaction(req, res) {
     try {
-      const user = await User.findOneAndUpdate(
-        { _id: req.params.userId },
-        { $addToSet: { reactions: req.params.reactionId } },
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $addToSet: { reactions: req.body } },
         { runValidators: true, new: true }
       );
 
-      if (!user) {
-        return res.status(404).json({ message: "No user found with that id." });
+      if (!thought) {
+        return res
+          .status(404)
+          .json({ message: "No thought found with that id." });
       }
-      res.status(200).json(user);
+      res.status(200).json(thought);
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   },
@@ -117,16 +123,18 @@ module.exports = {
   // https://localhost:3001/api/   delete route
   async deleteReaction(req, res) {
     try {
-      const user = await User.findOneAndUpdate(
-        { _id: req.params.userId },
-        { $pull: { reactions: req.params.reactionId } },
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: { reactionId: req.params.reactionId } } },
         { runValidators: true, new: true }
       );
 
-      if (!user) {
-        return res.status(404).json({ message: "No user found with that id." });
+      if (!thought) {
+        return res
+          .status(404)
+          .json({ message: "No thought found with that id." });
       }
-      res.status(200).json(user);
+      res.status(200).json(thought);
     } catch (err) {
       res.status(500).json(err);
     }

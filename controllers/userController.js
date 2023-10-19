@@ -46,7 +46,7 @@ module.exports = {
   async updateUser(req, res) {
     try {
       const user = await User.findOneAndUpdate(
-        { _id: req.params.thoughtId },
+        { _id: req.params.userId },
         { $set: req.body },
         { runValidators: true, new: true }
       );
@@ -95,6 +95,7 @@ module.exports = {
       }
       res.status(200).json(user);
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   },

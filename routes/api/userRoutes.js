@@ -1,11 +1,25 @@
 const router = require("express").Router();
 const {
-  getUsers,
+
+  //done
+  getUsers, 
+
+  //done
   getSingleUser,
+
+  //done
   createUser,
+
+  //done
   updateUser,
+
+  //done
   deleteUser,
+
+  //done
   addFriend,
+
+  //done
   deleteFriend,
 } = require("../../controllers/userController");
 
@@ -17,6 +31,6 @@ router.route("/:userId").get(getSingleUser).put(updateUser).delete(deleteUser);
 
 // https://localhost:3001/api/users/:userId/friends/:friendId
 
-router.route(":userId/friends/:friendId").post(addFriend).delete(deleteFriend);
+router.route("/:userId/friends/:friendId").post(addFriend).delete(deleteFriend);
 
 module.exports = router;
